@@ -9,9 +9,6 @@ dist/
 build/
 out/
 
-# Convex generated files
-convex/_generated/
-
 # Environment files — NEVER commit these
 .env
 .env.local

@@ -14,7 +14,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@xyphyx/shared": ["../../packages/shared/src"]
+      "@xyphyx/shared": ["../../packages/shared/src"],
+      "@convex/*": ["../../convex/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
