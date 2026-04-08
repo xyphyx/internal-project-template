@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import { assertDefined, formatDate, groupBy, truncate } from "@xyphyx/shared";
+import { describe, expect, it } from "vitest";
 
 describe("truncate", () => {
   it("returns the original string when shorter than maxLength", () => {

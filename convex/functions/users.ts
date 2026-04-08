@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internalMutation, query, QueryCtx } from "../_generated/server";
+import { type QueryCtx, internalMutation, query } from "../_generated/server";
 
 /**
  * Helper — get the currently authenticated user from the DB.

@@ -1,7 +1,7 @@
+import { env } from "@/env";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
-import { env } from "@/env";
 
 type ClerkWebhookEvent = {
   type: string;
@@ -18,10 +18,7 @@ export async function POST(req: Request) {
   const webhookSecret = env.CLERK_WEBHOOK_SECRET;
 
   if (!webhookSecret) {
-    return NextResponse.json(
-      { error: "CLERK_WEBHOOK_SECRET is not configured" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "CLERK_WEBHOOK_SECRET is not configured" }, { status: 500 });
   }
 
   const headerPayload = await headers();
