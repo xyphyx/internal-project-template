@@ -14,7 +14,7 @@ jobs:
   branch-name:
     name: Validate Branch Name
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     steps:
       - name: Check branch naming convention
         run: |
