@@ -1,1 +1,11 @@
 pnpm exec lint-staged
+
+# Secret scanning — requires gitleaks to be installed locally.
+# Install: https://github.com/gitleaks/gitleaks#installing
+# CI will always enforce this check regardless of local install status.
+if command -v gitleaks > /dev/null 2>&1; then
+  gitleaks protect --staged --config .gitleaks.toml --redact
+else
+  echo "⚠ gitleaks not found — skipping local secret scan. Install it to catch secrets before push."
+  echo "  https://github.com/gitleaks/gitleaks#installing"
+fi
