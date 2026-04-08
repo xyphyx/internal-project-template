@@ -61,8 +61,8 @@ describe("groupBy", () => {
     const result = groupBy(items, (item) => item.type);
     expect(result.a).toHaveLength(2);
     expect(result.b).toHaveLength(1);
-    expect(result.a![0]!.value).toBe(1);
-    expect(result.a![1]!.value).toBe(3);
+    expect(result.a[0].value).toBe(1);
+    expect(result.a[1].value).toBe(3);
   });
 
   it("returns an empty object for an empty array", () => {
