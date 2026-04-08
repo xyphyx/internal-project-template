@@ -2,15 +2,34 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, dev]
   pull_request:
-    branches: [main, develop]
+    branches: [main, dev]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  branch-name:
+    name: Validate Branch Name
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Check branch naming convention
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          PATTERN="^(feature|fix|hotfix|chore|docs|refactor|perf|test)\/[a-z0-9]([a-z0-9\-]{0,48}[a-z0-9])?$"
+          if [[ "$BRANCH" =~ $PATTERN ]]; then
+            echo "Branch name '$BRANCH' is valid."
+          else
+            echo "Branch name '$BRANCH' does not match the required pattern."
+            echo "Expected: <type>/<kebab-description>"
+            echo "Allowed types: feature, fix, hotfix, chore, docs, refactor, perf, test"
+            echo "Example: feature/user-authentication or fix/XYP-42-login-error"
+            exit 1
+          fi
+
   lint:
     name: Lint & Format
     runs-on: ubuntu-latest

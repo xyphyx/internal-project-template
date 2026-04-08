@@ -48,12 +48,25 @@ The app will be available at `http://localhost:3000`.
 
 ## Development workflow
 
-### Branches
+### Branch model
 
-- `main` — production branch, auto-deploys to Vercel + Convex
-- `develop` — integration branch for ongoing work
-- Feature branches: `feat/short-description`
-- Bug fixes: `fix/short-description`
+We use a three-tier branching model:
+
+| Branch | Purpose | Merges into |
+|--------|---------|-------------|
+| `main` | Production-ready code | — (release target) |
+| `dev` | Integration / staging | `main` (via release PR) |
+| `feature/*` | New features | `dev` |
+| `fix/*` | Bug fixes | `dev` |
+| `hotfix/*` | Critical production patches | `main` + backmerge to `dev` |
+| `chore/*` | Tooling / deps / config | `dev` |
+| `docs/*` | Documentation only | `dev` |
+
+**Branch naming:** `<type>/<kebab-description>` — e.g. `feature/user-auth` or `fix/XYP-42-login-error`
+
+Allowed types: `feature`, `fix`, `hotfix`, `chore`, `docs`, `refactor`, `perf`, `test`
+
+Branch names are validated by the `pre-push` hook and CI on pull requests. Direct pushes to `main` or `dev` are blocked.
 
 ### Commit messages
 
@@ -78,7 +91,7 @@ chore: update biome to 1.9.1
 
 ### Pull requests
 
-1. Fork or branch from `develop`
+1. Branch from `dev` (or `main` for hotfixes)
 2. Make your changes
 3. Ensure all checks pass locally:
    ```bash
@@ -86,8 +99,18 @@ chore: update biome to 1.9.1
    pnpm typecheck
    pnpm test
    ```
-4. Open a PR using the [PR template](.github/pull_request_template.md)
-5. Request a review
+4. Open a PR targeting `dev` (or `main` for hotfixes) using the [PR template](.github/pull_request_template.md)
+5. Request a review — 1 approval required for `dev`, 2 for `main`
+
+### Release process
+
+1. Ensure `dev` is green with all planned work merged
+2. Bump version: open `chore/vX.Y.Z-release-prep` PR → `dev`
+3. Open release PR: `dev → main`, title `release: vX.Y.Z`
+4. CI runs all checks; obtain 2 approvals (engineering + platform)
+5. Merge to `main` (merge commit)
+6. Push annotated tag: `git tag -a vX.Y.Z -m "release: vX.Y.Z" && git push origin vX.Y.Z`
+7. `release.yml` generates changelog and creates a GitHub Release automatically
 
 ## Code style
 
