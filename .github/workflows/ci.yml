@@ -187,6 +187,10 @@ jobs:
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
+    # continue-on-error: CodeQL upload requires GitHub Advanced Security (GHAS).
+    # On repos where GHAS is not enabled the upload step returns a 403; we treat
+    # this as non-blocking so it never gates merges until GHAS is activated.
+    continue-on-error: true
     permissions:
       actions: read
       contents: read
