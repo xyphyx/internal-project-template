@@ -1,0 +1,20 @@
+# CODEOWNERS — every PR requires at least one owner approval.
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default: all files require a review from the engineering team.
+*                          @xyphyx/engineering
+
+# CI/CD and DevSecOps configs require a senior/platform review.
+.github/                   @xyphyx/platform
+Dockerfile                 @xyphyx/platform
+docker-compose.yml         @xyphyx/platform
+vercel.json                @xyphyx/platform
+
+# Shared packages require a library/API review.
+packages/                  @xyphyx/engineering
+
+# Security-sensitive files require a security review.
+apps/web/src/middleware.ts @xyphyx/security
+apps/web/src/env.ts        @xyphyx/security
+.env.example               @xyphyx/security
+SECURITY.md                @xyphyx/security
