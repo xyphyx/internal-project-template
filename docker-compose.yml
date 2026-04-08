@@ -1,0 +1,43 @@
+name: xyphyx-app
+
+services:
+  # Self-hosted Convex backend
+  # See: https://github.com/get-convex/convex-backend
+  convex-backend:
+    image: ghcr.io/get-convex/convex-backend:latest
+    ports:
+      - "3210:3210"
+      - "3211:3211"
+    environment:
+      - CONVEX_SITE_URL=http://localhost:3210
+    volumes:
+      - convex-data:/convex/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3210/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Next.js app (production image)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      - NODE_ENV=production
+      # Override Convex URL to point to local self-hosted backend
+      - NEXT_PUBLIC_CONVEX_URL=http://localhost:3210
+    depends_on:
+      convex-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  convex-data:
