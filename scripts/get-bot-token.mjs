@@ -51,7 +51,7 @@ function createAppJwt(appId, privateKeyPem) {
   const payload = base64url(
     JSON.stringify({
       iat: now - 60, // issued 60s ago to account for clock drift
-      exp: now + 600, // 10-minute expiry (GitHub max)
+      exp: now + 480, // 8 min from now = 9 min from iat, safely under GitHub's 10-min limit
       iss: String(appId),
     }),
   );
