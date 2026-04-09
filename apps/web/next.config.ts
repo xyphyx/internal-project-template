@@ -48,9 +48,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   transpilePackages: ["@xyphyx/shared"],
   output: "standalone",
-  experimental: {
-    typedRoutes: true,
-  },
+  typedRoutes: true,
   async headers() {
     return [
       {
