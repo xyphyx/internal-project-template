@@ -113,9 +113,20 @@ main checkout → EnterWorktree("XYP-XX") → rename branch → implement
 
 Worktree branches are regular git branches pushed to `origin`. All existing CI workflows (lint, typecheck, unit tests, CodeQL, dependency audit) trigger on `push` and `pull_request` events as normal. No special configuration is needed.
 
+## Node Modules in Worktrees
+
+Worktrees are separate working directories and do not inherit `node_modules/` from the main checkout. Symlink it to avoid re-installing:
+
+```bash
+ln -s /path/to/repo/node_modules node_modules
+```
+
+Replace `/path/to/repo` with the absolute path to the main repo root (e.g., `C:/Users/armst/Paperclip/Companies/XyphyX/internal-project-template`). The symlink target is listed in `.gitignore` so it will never be committed.
+
 ## Tips
 
 - Always base worktrees off `main` (check out `main` before calling `EnterWorktree`).
 - Use `git log --oneline -5` after entering to verify you're on the right base.
 - Never commit directly to `main` — always work in a worktree branch.
 - `.claude/worktrees/` is git-ignored; worktree folders never appear in the main index.
+- Branch names must follow `<type>/<kebab-description>` with lowercase only. Allowed types: `feature`, `fix`, `hotfix`, `chore`, `docs`, `refactor`, `perf`, `test`.
