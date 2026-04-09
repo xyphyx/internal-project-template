@@ -1,11 +1,11 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
+import { api } from "@convex/_generated/api";
 import { useQuery } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 
 export default function DashboardPage() {
-  const tasks = useQuery(api.tasks.list);
+  const tasks = useQuery(api.functions.tasks.list);
 
   return (
     <div className="min-h-screen p-8">
