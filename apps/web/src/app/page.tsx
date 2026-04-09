@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -14,7 +14,10 @@ export default function HomePage() {
       <div className="flex items-center gap-4">
         <SignedOut>
           <SignInButton mode="modal">
-            <button className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition hover:opacity-90">
+            <button
+              type="button"
+              className="rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition hover:opacity-90"
+            >
               Sign in
             </button>
           </SignInButton>
