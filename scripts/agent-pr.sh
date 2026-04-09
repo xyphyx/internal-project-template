@@ -43,9 +43,21 @@ fi
 git -C "$REPO_ROOT" config --local user.name "XyphyX Bot"
 git -C "$REPO_ROOT" config --local user.email "xyphyx-bot[bot]@users.noreply.github.com"
 
+# ── Locate gh CLI (handles cases where it is not in PATH) ────────────────────
+GH_CMD="gh"
+if ! command -v gh &>/dev/null; then
+  # Common Windows installation path when running under Git Bash
+  if [[ -x "/c/Program Files/GitHub CLI/gh.exe" ]]; then
+    GH_CMD="/c/Program Files/GitHub CLI/gh.exe"
+  else
+    echo "Error: GitHub CLI (gh) not found. Install from https://cli.github.com" >&2
+    exit 1
+  fi
+fi
+
 # ── Create the PR using the bot token ────────────────────────────────────────
 echo "Creating PR as XyphyX Bot..." >&2
-GH_TOKEN="$BOT_TOKEN" gh pr create "$@"
+GH_TOKEN="$BOT_TOKEN" "$GH_CMD" pr create "$@"
 
 echo "" >&2
 echo "PR created. Board user can now review and approve." >&2
