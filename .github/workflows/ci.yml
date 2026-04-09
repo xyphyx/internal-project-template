@@ -109,7 +109,8 @@ jobs:
       SKIP_ENV_VALIDATION: "1"
       # Placeholder values so third-party clients initialise during static prerender
       NEXT_PUBLIC_CONVEX_URL: "https://ci-placeholder.convex.cloud"
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_ci-placeholder-key"
+      # base64("clerk.dev$") = Y2xlcmsuZGV2JA== — valid format, non-functional
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_Y2xlcmsuZGV2JA=="
     steps:
       - uses: actions/checkout@v4
 
