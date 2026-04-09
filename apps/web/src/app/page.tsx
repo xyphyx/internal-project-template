@@ -1,4 +1,5 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import type { Route } from "next";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -22,7 +23,7 @@ export default function HomePage() {
             </button>
           </SignInButton>
           <Link
-            href="/sign-up"
+            href={"/sign-up" as Route}
             className="rounded-lg border border-border px-6 py-3 font-medium transition hover:bg-accent"
           >
             Get started
