@@ -1,4 +1,6 @@
 import { env } from "@/env";
+import { internal } from "@convex/_generated/api";
+import { getFunctionName } from "convex/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
@@ -13,6 +15,32 @@ type ClerkWebhookEvent = {
     image_url?: string;
   };
 };
+
+async function fetchInternalMutation(
+  fnRef: Parameters<typeof getFunctionName>[0],
+  args: Record<string, unknown>
+): Promise<void> {
+  const deployKey = env.CONVEX_DEPLOY_KEY;
+  if (!deployKey) {
+    throw new Error("CONVEX_DEPLOY_KEY is not configured");
+  }
+  const path = getFunctionName(fnRef);
+  const response = await fetch(`${env.NEXT_PUBLIC_CONVEX_URL}/api/mutation`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Convex ${deployKey}`,
+    },
+    body: JSON.stringify({ path, format: "convex_encoded_json", args: [args] }),
+  });
+  if (!response.ok) {
+    throw new Error(`Convex mutation failed: ${await response.text()}`);
+  }
+  const json = await response.json();
+  if (json.status !== "success") {
+    throw new Error(`Convex mutation error: ${json.errorMessage}`);
+  }
+}
 
 export async function POST(req: Request) {
   const webhookSecret = env.CLERK_WEBHOOK_SECRET;
@@ -44,15 +72,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid webhook signature" }, { status: 400 });
   }
 
-  // Handle the event
   switch (event.type) {
     case "user.created":
-    case "user.updated":
-      // Sync user data to Convex here if needed
-      // await convex.mutation(api.users.upsert, { ... });
+    case "user.updated": {
+      const email = event.data.email_addresses?.[0]?.email_address ?? "";
+      const nameParts = [event.data.first_name, event.data.last_name].filter(Boolean);
+      const args: Record<string, unknown> = { clerkId: event.data.id, email };
+      if (nameParts.length > 0) args.name = nameParts.join(" ");
+      if (event.data.image_url) args.imageUrl = event.data.image_url;
+      await fetchInternalMutation(internal.functions.users.upsert, args);
       break;
+    }
     case "user.deleted":
-      // Handle user deletion
+      await fetchInternalMutation(internal.functions.users.deleteByClerkId, {
+        clerkId: event.data.id,
+      });
       break;
   }
 

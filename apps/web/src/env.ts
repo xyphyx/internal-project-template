@@ -8,6 +8,7 @@ export const env = createEnv({
   server: {
     CLERK_SECRET_KEY: z.string().min(1),
     CLERK_WEBHOOK_SECRET: z.string().min(1).optional(),
+    CONVEX_DEPLOY_KEY: z.string().min(1).optional(),
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   },
 
@@ -31,6 +32,7 @@ export const env = createEnv({
   runtimeEnv: {
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
+    CONVEX_DEPLOY_KEY: process.env.CONVEX_DEPLOY_KEY,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
