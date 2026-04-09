@@ -137,6 +137,8 @@ jobs:
     env:
       SKIP_ENV_VALIDATION: "1"
       PLAYWRIGHT_BASE_URL: http://localhost:3000
+      NEXT_PUBLIC_CONVEX_URL: "https://ci-placeholder.convex.cloud"
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_Y2xlcmsuZGV2JA=="
     steps:
       - uses: actions/checkout@v4
 
