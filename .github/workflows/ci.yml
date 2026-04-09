@@ -139,6 +139,8 @@ jobs:
       PLAYWRIGHT_BASE_URL: http://localhost:3000
       NEXT_PUBLIC_CONVEX_URL: "https://ci-placeholder.convex.cloud"
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_Y2xlcmsuZGV2JA=="
+      # Clerk server-side key — placeholder to satisfy startup check (no real auth in E2E)
+      CLERK_SECRET_KEY: "sk_test_placeholder00000000000000000000000000"
     steps:
       - uses: actions/checkout@v4
 
