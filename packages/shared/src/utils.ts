@@ -44,7 +44,9 @@ export function groupBy<T, K extends string | number | symbol>(
   return items.reduce(
     (acc, item) => {
       const k = key(item);
-      (acc[k] ??= []).push(item);
+      const group = acc[k] ?? [];
+      acc[k] = group;
+      group.push(item);
       return acc;
     },
     {} as Record<K, T[]>
