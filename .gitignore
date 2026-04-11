@@ -1,3 +1,6 @@
+# Claude Code worktrees (agent execution sandboxes — not source)
+.claude/
+
 # Dependencies
 node_modules/
 .pnp
