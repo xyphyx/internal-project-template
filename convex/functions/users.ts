@@ -26,8 +26,8 @@ export const me = query({
 });
 
 /**
- * Upsert user from Clerk webhook — called by the Next.js webhook route
- * via an internal mutation to keep auth logic server-side.
+ * Upsert user from Clerk webhook — called by the Next.js webhook route.
+ * Security is provided by Svix signature validation in the webhook handler.
  */
 export const upsert = internalMutation({
   args: {
@@ -62,6 +62,7 @@ export const upsert = internalMutation({
 
 /**
  * Delete user by Clerk ID — called by the Clerk webhook on user.deleted.
+ * Security is provided by Svix signature validation in the webhook handler.
  */
 export const deleteByClerkId = internalMutation({
   args: { clerkId: v.string() },
