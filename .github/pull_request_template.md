@@ -4,6 +4,8 @@
 
 Closes #
 
+**Task:** XYP- <!-- internal Paperclip task ID, e.g. XYP-42 -->
+
 ## Type of change
 
 - [ ] Bug fix (non-breaking change that fixes an issue)
