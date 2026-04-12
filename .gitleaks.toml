@@ -1,0 +1,36 @@
+# gitleaks configuration for XyphyX internal project template
+# https://github.com/gitleaks/gitleaks
+
+title = "XyphyX Gitleaks Config"
+
+[extend]
+# Extend the default gitleaks ruleset
+useDefault = true
+
+[allowlist]
+description = "Global allowlist"
+regexTarget = "match"
+regexes = [
+  # Placeholder / example values commonly used in templates and docs
+  '''(?i)(your[-_]?api[-_]?key|your[-_]?secret|placeholder|example|changeme|xxxx+|1234+)''',
+  # Next.js / T3 env validation schema patterns (not real secrets)
+  '''z\.(string|object|enum)\(''',
+]
+paths = [
+  # Test fixtures and snapshots are not real secrets
+  '''tests/fixtures/''',
+  '''__snapshots__/''',
+  # Package lock files may contain integrity hashes that look like secrets
+  '''pnpm-lock\.yaml''',
+  '''package-lock\.json''',
+  # Local env example file — contains only placeholder values
+  '''\.env\.example''',
+  '''\.env\.local\.example''',
+]
+
+[[rules]]
+id = "next-public-env"
+description = "Next.js NEXT_PUBLIC env values are intentionally client-exposed — not secrets"
+regex = '''NEXT_PUBLIC_[A-Z_]+=["']?[^"'\s]+["']?'''
+allowlist.regexTarget = "line"
+allowlist.regexes = ['''NEXT_PUBLIC_''']
