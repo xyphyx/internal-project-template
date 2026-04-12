@@ -50,3 +50,6 @@ pnpm-debug.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code agent worktrees — these are git-linked worktree checkouts, not source files
+.claude/worktrees/
