@@ -199,6 +199,10 @@ jobs:
   gitleaks:
     name: Secret Scanning (gitleaks)
     runs-on: ubuntu-latest
+    # Dependabot PRs don't have access to repo secrets (GitHub restricts this by default).
+    # Gitleaks requires GITLEAKS_LICENSE from secrets, so skip for dependabot to avoid false failures.
+    # Dependabot only bumps dependency versions — it doesn't introduce user-authored secrets.
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v4
         with:
