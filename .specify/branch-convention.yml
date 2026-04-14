@@ -1,0 +1,12 @@
+preset: gitflow
+pattern: "{type}/{seq}-{kebab}"
+# Examples: feat/042-user-auth, fix/043-login-error, chore/044-update-deps
+# Supported types (conventional commit): feat, fix, chore, docs, refactor, test, ci
+types:
+  - feat
+  - fix
+  - chore
+  - docs
+  - refactor
+  - test
+  - ci
