@@ -1,0 +1,6 @@
+catalogs:
+- name: xyphyx
+  url: https://raw.githubusercontent.com/XyphyX/internal-speckit-extensions/main/catalog.json
+  priority: 10
+  install_allowed: true
+  description: ''
