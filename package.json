@@ -33,6 +33,6 @@
     "pnpm": ">=9"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "sharp"]
+    "onlyBuiltDependencies": ["@biomejs/biome", "@clerk/shared", "esbuild", "sharp"]
   }
 }
