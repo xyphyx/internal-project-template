@@ -37,19 +37,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v6
-        with:
-          version: 10.11.0
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-
-      - name: Debug pnpm config
-        run: |
-          pnpm --version
-          cat pnpm-workspace.yaml
-          pnpm config list
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -64,8 +56,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v6
-        with:
-          version: 10.11.0
 
       - uses: actions/setup-node@v4
         with:
@@ -85,8 +75,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v6
-        with:
-          version: 10.11.0
 
       - uses: actions/setup-node@v4
         with:
@@ -121,8 +109,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v6
-        with:
-          version: 10.11.0
 
       - uses: actions/setup-node@v4
         with:
@@ -156,8 +142,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v6
-        with:
-          version: 10.11.0
 
       - uses: actions/setup-node@v4
         with:
@@ -188,8 +172,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v6
-        with:
-          version: 10.11.0
 
       - uses: actions/setup-node@v4
         with:
