@@ -68,26 +68,33 @@ export async function POST(req: Request) {
       "svix-timestamp": svixTimestamp,
       "svix-signature": svixSignature,
     }) as ClerkWebhookEvent;
-  } catch {
+  } catch (error) {
+    console.error(`Webhook verification failed [svix-id: ${svixId}]:`, error);
     return NextResponse.json({ error: "Invalid webhook signature" }, { status: 400 });
   }
 
-  switch (event.type) {
-    case "user.created":
-    case "user.updated": {
-      const email = event.data.email_addresses?.[0]?.email_address ?? "";
-      const nameParts = [event.data.first_name, event.data.last_name].filter(Boolean);
-      const args: Record<string, unknown> = { clerkId: event.data.id, email };
-      if (nameParts.length > 0) args.name = nameParts.join(" ");
-      if (event.data.image_url) args.imageUrl = event.data.image_url;
-      await fetchInternalMutation(internal.functions.users.upsert, args);
-      break;
+  try {
+    switch (event.type) {
+      case "user.created":
+      case "user.updated": {
+        const email = event.data.email_addresses?.[0]?.email_address ?? "";
+        const nameParts = [event.data.first_name, event.data.last_name].filter(Boolean);
+        const args: Record<string, unknown> = { clerkId: event.data.id, email, requestId: svixId };
+        if (nameParts.length > 0) args.name = nameParts.join(" ");
+        if (event.data.image_url) args.imageUrl = event.data.image_url;
+        await fetchInternalMutation(internal.functions.users.upsert, args);
+        break;
+      }
+      case "user.deleted":
+        await fetchInternalMutation(internal.functions.users.deleteByClerkId, {
+          clerkId: event.data.id,
+          requestId: svixId,
+        });
+        break;
     }
-    case "user.deleted":
-      await fetchInternalMutation(internal.functions.users.deleteByClerkId, {
-        clerkId: event.data.id,
-      });
-      break;
+  } catch (error) {
+    console.error(`Webhook processing failed [svix-id: ${svixId}] [event: ${event.type}]:`, error);
+    return NextResponse.json({ error: "Webhook processing failed" }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });
