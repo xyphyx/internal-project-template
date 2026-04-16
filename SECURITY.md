@@ -21,8 +21,9 @@ You will receive an acknowledgment within 48 hours and a resolution timeline wit
 ## Security Practices
 
 - All secrets are managed via environment variables and never committed to the repo.
-- Dependencies are automatically updated via Dependabot (weekly) and audited in CI via `pnpm audit`.
-- CodeQL static analysis runs on every PR.
+- Dependencies are scanned for known CVEs on every PR using [OSV Scanner](https://github.com/google/osv-scanner).
+- Secret scanning runs on every PR via [Gitleaks](https://github.com/gitleaks/gitleaks).
+- Static analysis is performed by [Biome](https://biomejs.dev/) (lint + type-safety) on every PR. Full CodeQL SAST will be enabled once GitHub Advanced Security (GHAS) is activated for this organization.
 - Security headers (CSP, HSTS, X-Frame-Options, etc.) are enforced at the CDN and Next.js layers.
 - Authentication is delegated to Clerk; no passwords are stored in this application.
 - All database access is through Convex's type-safe query/mutation API.
