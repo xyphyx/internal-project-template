@@ -27,12 +27,12 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
 
@@ -77,7 +77,7 @@ jobs:
 
       - name: Comment on PR (auto-fix applied)
         if: steps.fix.outputs.changed == 'true'
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             await github.rest.issues.createComment({
@@ -113,7 +113,7 @@ jobs:
     steps:
       - name: Get failed jobs
         id: jobs
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const { data } = await github.rest.actions.listJobsForWorkflowRun({
@@ -130,7 +130,7 @@ jobs:
 
       - name: Find PR number
         id: pr
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const prs = context.payload.workflow_run.pull_requests;
@@ -142,7 +142,7 @@ jobs:
 
       - name: Post failure comment
         if: steps.pr.outputs.number != '' && steps.jobs.outputs.has_failures == 'true'
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const failedJobs = `${{ steps.jobs.outputs.failed_jobs }}`;
