@@ -179,20 +179,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v6
+      - name: Scan dependencies for vulnerabilities (OSV Scanner)
+        uses: google/osv-scanner-action@v2
         with:
-          version: 9
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Audit dependencies
-        run: pnpm audit --audit-level=high
+          scan-args: |-
+            --lockfile=pnpm-lock.yaml
 
   gitleaks:
     name: Secret Scanning (gitleaks)
