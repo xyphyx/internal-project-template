@@ -28,6 +28,11 @@
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx,json,css,md}": ["biome check --write --no-errors-on-unmatched"]
   },
+  "pnpm": {
+    "overrides": {
+      "@clerk/shared": ">=3.47.4"
+    }
+  },
   "engines": {
     "node": ">=22",
     "pnpm": ">=10"
