@@ -1,3 +1,9 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+onlyBuiltDependencies:
+  - "@biomejs/biome"
+  - "@clerk/shared"
+  - esbuild
+  - sharp
