@@ -32,9 +32,7 @@
   },
   "engines": {
     "node": ">=22",
-    "pnpm": ">=9"
+    "pnpm": ">=10"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "sharp"]
-  }
+  "packageManager": "pnpm@10.11.0"
 }
