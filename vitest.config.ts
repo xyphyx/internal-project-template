@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    include: ["packages/**/src/**/*.test.ts"],
+    include: ["packages/**/src/**/*.test.ts", "convex/functions/**/*.test.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
