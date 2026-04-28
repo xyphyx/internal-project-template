@@ -1,11 +1,11 @@
 {
-  "recommendations": [
-    "biomejs.biome",
-    "bradlc.vscode-tailwindcss",
-    "ms-vscode.vscode-typescript-next",
-    "ms-playwright.playwright",
-    "convex.convex",
-    "christian-kohler.path-intellisense",
-    "usernamehw.errorlens"
-  ]
+	"recommendations": [
+		"biomejs.biome",
+		"bradlc.vscode-tailwindcss",
+		"ms-vscode.vscode-typescript-next",
+		"ms-playwright.playwright",
+		"convex.convex",
+		"christian-kohler.path-intellisense",
+		"usernamehw.errorlens"
+	]
 }

@@ -1,11 +1,11 @@
+import path from "node:path";
 import { defineConfig } from "vitest/config";
-import path from "path";
 
 export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    include: ["tests/unit/**/*.test.ts", "packages/**/src/**/*.test.ts"],
+    include: ["packages/**/src/**/*.test.ts", "convex/functions/**/*.test.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],

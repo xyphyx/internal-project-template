@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internalMutation, query, QueryCtx } from "../_generated/server";
+import { type QueryCtx, internalMutation, query } from "../_generated/server";
 
 /**
  * Helper — get the currently authenticated user from the DB.
@@ -26,8 +26,8 @@ export const me = query({
 });
 
 /**
- * Upsert user from Clerk webhook — called by the Next.js webhook route
- * via an internal mutation to keep auth logic server-side.
+ * Upsert user from Clerk webhook — called by the Next.js webhook route.
+ * Security is provided by Svix signature validation in the webhook handler.
  */
 export const upsert = internalMutation({
   args: {
@@ -35,8 +35,12 @@ export const upsert = internalMutation({
     email: v.string(),
     name: v.optional(v.string()),
     imageUrl: v.optional(v.string()),
+    requestId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    if (args.requestId) {
+      console.log(`upsert user [requestId: ${args.requestId}] [clerkId: ${args.clerkId}]`);
+    }
     const existing = await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
@@ -62,10 +66,14 @@ export const upsert = internalMutation({
 
 /**
  * Delete user by Clerk ID — called by the Clerk webhook on user.deleted.
+ * Security is provided by Svix signature validation in the webhook handler.
  */
 export const deleteByClerkId = internalMutation({
-  args: { clerkId: v.string() },
+  args: { clerkId: v.string(), requestId: v.optional(v.string()) },
   handler: async (ctx, args) => {
+    if (args.requestId) {
+      console.log(`deleteByClerkId [requestId: ${args.requestId}] [clerkId: ${args.clerkId}]`);
+    }
     const user = await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
