@@ -23,6 +23,7 @@ You will receive an acknowledgment within 48 hours and a resolution timeline wit
 - All secrets are managed via environment variables and never committed to the repo.
 - Dependencies are scanned for known CVEs on every PR using [OSV Scanner](https://github.com/google/osv-scanner).
 - Secret scanning runs on every PR via [Gitleaks](https://github.com/gitleaks/gitleaks).
+- **GitHub native secret scanning** is enabled on this repository with **push protection** active — commits containing detected secrets are blocked at push time. Current alert count: 0.
 - Static analysis is performed by [Biome](https://biomejs.dev/) (lint + type-safety) on every PR. Full CodeQL SAST will be enabled once GitHub Advanced Security (GHAS) is activated for this organization.
 - Security headers (CSP, HSTS, X-Frame-Options, etc.) are enforced at the CDN and Next.js layers.
 - Authentication is delegated to Clerk; no passwords are stored in this application.
