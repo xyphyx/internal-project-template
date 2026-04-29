@@ -32,7 +32,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@clerk/shared": ">=3.47.4"
+      "@clerk/shared": ">=3.47.4",
+      "postcss": ">=8.5.10"
     }
   },
   "engines": {
